@@ -9,7 +9,6 @@ import org.apache.jena.shared.PrefixMapping;
 
 public interface LdDataset {
 	
-	// TODO:
 	public ResultSet executeSelectQuery(String query);
 	public Model executeConstructQuery(String query);
 	public boolean executeAskQuery(String query);
@@ -23,9 +22,10 @@ public interface LdDataset {
 
 	public void setPrefixes(PrefixMapping prefixes);
 
-	public String getLocation();
+	public String getLink();
 
-	public void setLocation(String location);
+	public void setLink(String location);
 	public String getQuery(String name) throws IOException;
+	public void setPath(String path);
 
 }

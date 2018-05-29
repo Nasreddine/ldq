@@ -10,54 +10,108 @@ import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.jena.query.ParameterizedSparqlString;
+import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.shared.PrefixMapping;
 import org.apache.jena.shared.impl.PrefixMappingImpl;
 import org.apache.jena.vocabulary.*;
-import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class LdDatasetBase.
+ */
 public abstract class LdDatasetBase implements LdDataset {
 
-	protected final static Logger LOG = LoggerFactory.getLogger(LdDatasetBase.class);
-
-	public static final String DATASETS_REPO_PATH = System.getProperty("user.dir") + "/datasets/";
-
+	/** The name. */
 	String name;
-	PrefixMapping prefixes;
-	String location;
 
+	/** The prefixes. */
+	PrefixMapping prefixes;
+
+	/** The link. */
+	String link;
+
+	/** The path. */
+	String path;
+
+	/** dataset configuration Model. */
 	Model config;
 
 	public LdDatasetBase() {
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see sc.research.ldq.LdDataset#getName()
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see sc.research.ldq.LdDataset#setName(java.lang.String)
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see sc.research.ldq.LdDataset#getPrefixes()
+	 */
 	public PrefixMapping getPrefixes() {
 		return prefixes;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * sc.research.ldq.LdDataset#setPrefixes(org.apache.jena.shared.PrefixMapping)
+	 */
 	public void setPrefixes(PrefixMapping prefixes) {
 		this.prefixes = prefixes;
 	}
 
-	public String getLocation() {
-		return location;
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see sc.research.ldq.LdDataset#getLocation()
+	 */
+	public String getLink() {
+		return link;
 	}
 
-	public void setLocation(String location) {
-		this.location = location;
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see sc.research.ldq.LdDataset#setLink(java.lang.String)
+	 */
+	public void setLink(String link) {
+		this.link = link;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see sc.research.ldq.LdDataset#setPath(java.lang.String)
+	 */
+	public void setPath(String path) {
+		this.path = path;
+	}
+
+	/**
+	 * Gets the default prefixes.
+	 *
+	 * @return the default prefixes
+	 */
 	public static Map<String, String> getDefaultPrefixes() {
 
 		Map<String, String> default_prefixes = new HashMap<String, String>();
@@ -71,13 +125,19 @@ public abstract class LdDatasetBase implements LdDataset {
 		return default_prefixes;
 	}
 
-	public static Model loadConfig(String name) throws Exception {
+	/**
+	 * Load configuration options from config.ttl file
+	 *
+	 * @param datasetPath
+	 *            : path to dataset location
+	 * @return model
+	 * @throws Exception
+	 */
+	public static Model loadConfig(String datasetPath) throws Exception {
 		// TODO: load from its name (directory).
 
-		if (null == name)
+		if (null == datasetPath)
 			throw new Exception("dataset name must be set");
-
-		String datasetPath = DATASETS_REPO_PATH + name;
 
 		// Create a model and read into it from file
 		Model config = RDFDataMgr.loadModel(datasetPath + "/" + "config.ttl");
@@ -89,41 +149,39 @@ public abstract class LdDatasetBase implements LdDataset {
 		// Dataset dataset = RDFDataMgr.loadDataset("data.trig");
 	}
 
-	public static PrefixMapping loadPrefixes(String name) throws Exception {
-		if (null == name)
-			throw new Exception("dataset name must be set");
+	/**
+	 * Load prefixes from dataset prefixes.ttl file
+	 *
+	 * @param datasetPath
+	 * @return the prefix mapping
+	 * @throws Exception
+	 *             the exception
+	 */
+	public static PrefixMapping loadPrefixes(String datasetPath) throws Exception {
 
-		String datasetPath = DATASETS_REPO_PATH + name;
+		if (null == datasetPath)
+			throw new Exception("dataset path must be set");
 
 		Model model = RDFDataMgr.loadModel(datasetPath + "/" + "prefixes.ttl");
-
-		// BufferedReader br = new BufferedReader(new FileReader(datasetPath));
-		// PrefixMapping prefixes = new PrefixMappingImpl();
-		//
-		// try {
-		// String line = br.readLine();
-		// while (line != null) {
-		// line = br.readLine();
-		// String[] splited_prefix = line .trim()
-		// .split(":");
-		// prefixes.setNsPrefix(splited_prefix[0], splited_prefix[1]);
-		// }
-		//
-		// } finally {
-		// br.close();
-		// }
 
 		return new PrefixMappingImpl().setNsPrefixes(model.getNsPrefixMap());
 	}
 
+	/**
+	 * Read specific SPARQL query from queries directory
+	 * 
+	 * @param QueryName
+	 * @return the query string
+	 * 
+	 */
 	public String getQuery(String queryName) throws IOException {
-		String queryPath = DATASETS_REPO_PATH + name + "/" + queryName + ".sparql";
+		String queryPath = path + name + "/queries/" + queryName + ".sparql";
 		return FileUtils.readFileToString(new File(queryPath), Charset.defaultCharset());
 	}
 
 	/**
-	 * Prepare query by adding all prefixes
-	 * 
+	 * Prepare query by adding all prefixes.
+	 *
 	 * @return ParameterizedSparqlString
 	 */
 

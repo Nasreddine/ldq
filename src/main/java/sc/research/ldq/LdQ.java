@@ -4,7 +4,7 @@ package sc.research.ldq;
  * Hello world!
  *
  */
-public class App 
+public class LdQ 
 {
     public static void main( String[] args )
     {

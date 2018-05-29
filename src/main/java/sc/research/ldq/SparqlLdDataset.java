@@ -27,28 +27,28 @@ public class SparqlLdDataset extends LdDatasetBase implements LdDataset {
 
 	public ResultSet executeSelectQuery(String query) {
 
-		LOG.info(query);
-		return QueryExecutionFactory.sparqlService(this.location, query).execSelect();
+		return QueryExecutionFactory.sparqlService(this.link, query)
+									.execSelect();
 	}
 
 	public boolean executeAskQuery(String query) {
 
-		LOG.info(query);
-		return QueryExecutionFactory.sparqlService(this.location, query).execAsk();
+		return QueryExecutionFactory.sparqlService(this.link, query)
+									.execAsk();
 	}
 
 	// TODO: see weather we need to call construct on dataset ?
 
 	public Model executeConstructQuery(String query) {
 
-		LOG.info(query);
-		return QueryExecutionFactory.sparqlService(this.location, query).execConstruct();
+		return QueryExecutionFactory.sparqlService(this.link, query)
+									.execConstruct();
 	}
 
 	public Model executeDescribeQuery(String query) {
 
-		LOG.info(query);
-		return QueryExecutionFactory.sparqlService(this.location, query).execDescribe();
+		return QueryExecutionFactory.sparqlService(this.link, query)
+									.execDescribe();
 	}
 
 	// if (this.config.dataset_type == LdDatasetType.REMOTE_SPARQL_ENDPOINT)
@@ -61,7 +61,7 @@ public class SparqlLdDataset extends LdDatasetBase implements LdDataset {
 	// }
 
 	// TODO
-	// if type is dump file and it does not exists locally download it 
+	// if type is dump file and it does not exists locally download it
 	// if url of file available in config file
 	// store data locally / cache
 

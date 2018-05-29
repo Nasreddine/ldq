@@ -1,1 +1,1 @@
-ask  {" + "dbr:Algeria ?p ?o.\n" + "}
+ask  { dbr:Algeria ?p ?o. }

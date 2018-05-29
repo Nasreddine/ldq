@@ -1,74 +1,128 @@
 package sc.research.ldq;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.rdf.model.RDFNode;
-import org.apache.jena.rdf.model.Selector;
-import org.apache.jena.rdf.model.StmtIterator;
-import org.apache.jena.rdf.model.impl.SelectorImpl;
+
 import org.apache.jena.shared.PrefixMapping;
 import org.apache.jena.shared.impl.PrefixMappingImpl;
-import org.apache.jena.sparql.vocabulary.FOAF;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+// TODO: Auto-generated Javadoc
+/**
+ * A factory for creating LdDataset objects.
+ */
 public class LdDatasetFactory {
+	
+	/** logger. */
 	Logger logger = LoggerFactory.getLogger(this.getClass());
 
+	/** LOD dataset factory. */
 	private static LdDatasetFactory factory;
 
+	/** The LD dataset name. */
 	private String name;
-	private String location;
+	
+	/** link to sparql dataset or rdf file. */
+	private String link; // 
+	
+	/** The dataset prefixes. */
 	private PrefixMapping prefixes;
+	
+	/** The directory path where dataset is defined. */
+	private String path; 
 
+	/** The dump. */
 	static int SPARQL = 0, LOCAL = 1, DUMP = 2;
 
+	/**
+	 * Instantiates a ld Datasets factory and init variables.
+	 */
 	private LdDatasetFactory() {
 		prefixes = new PrefixMappingImpl();
+		defaultPrefixes();
+		path = "datasets/";
 	}
+	
 
+	/**
+	 * Gets the single instance of LdDatasetFactory.
+	 *
+	 * @return single instance of LdDatasetFactory
+	 */
 	public static LdDatasetFactory getInstance() {
 		return (factory == null) ? (factory = new LdDatasetFactory()) : factory;
 	}
 
+	/**
+	 * set dataset name.
+	 *
+	 * @param name the name
+	 * @return the ld dataset factory
+	 */
 	public LdDatasetFactory name(String name) {
 		this.name = name;
 		return factory;
 	}
 
-	public LdDatasetFactory location(String location) {
-		this.location = location;
+	/**
+	 * set dataset link.
+	 *
+	 * @param link to LD dataset (sparql url, file path or Jena TDB directory
+	 * @return the LD dataset factory
+	 */
+	public LdDatasetFactory link(String location) {
+		this.link = location;
 		return factory;
 	}
 
+	/**
+	 * set dataset prefixes, .
+	 *
+	 * @param prefixes 
+	 * @return the ld dataset factory
+	 */
 	public LdDatasetFactory prefixes(PrefixMapping prefixes) {
 
-		defaultPrefexes();
 		this.prefixes.setNsPrefixes(prefixes);
 		return factory;
 	}
 
 	/**
-	 * Add default prefexes.
+	 *  Default prefixes.
 	 */
-	private void defaultPrefexes() {
+	private void defaultPrefixes() {
 
 		Map<String, String> default_prefixes = LdDatasetBase.getDefaultPrefixes();
 
 		prefixes.setNsPrefixes(default_prefixes);
 
 	}
+	
+	/**
+	 * set dataset directory path
+	 *
+	 * @param path the path
+	 * @return the ld dataset factory
+	 */
+	public LdDatasetFactory path(String path) {
+		this.path = path;
+		return this;
+	}
 
+	/**
+	 * Create the dataset.
+	 *
+	 * @return the ld dataset
+	 * @throws Exception the exception
+	 */
 	public LdDataset create() throws Exception {
 
-		if (name == null || location == null)
+		if (name == null || link == null)
 			throw new Exception("name and/or location are not provided");
 
-		int type = type(location);
+		int type = type(link);
 		LdDataset dataset;
 		switch (type) {
 		case 0:
@@ -85,35 +139,42 @@ public class LdDatasetFactory {
 		}
 
 		dataset.setName(name);
-		dataset.setLocation(location);
+		dataset.setLink(link);
 		dataset.setPrefixes(prefixes);
+		dataset.setPath(path);
 
 		return dataset;
 
 	}
 
 	/**
-	 * Deduce dataset type from location value.
+	 * Deduce dataset type from link value.
 	 *
-	 * @param location
+	 * @param link the location
 	 * @return int
 	 */
-	private int type(String location) {
-		if (location.contains("http://") || location.contains("https://"))
+	private int type(String link) {
+		if (link.contains("http://") || link.contains("https://"))
 			return 0;
-		else if (new File(location).isDirectory())
+		else if (new File(link).isDirectory())
 			return 1;
 		else
 			return 2;
 	}
 
+	/**
+	 * Loading predefined dataset.
+	 *
+	 * @return the ld dataset
+	 * @throws Exception the exception
+	 */
 	public LdDataset load() throws Exception {
 
 		// Load prefixes
-		PrefixMapping loaded_prefixes = LdDatasetBase.loadPrefixes(name);
+		PrefixMapping loaded_prefixes = LdDatasetBase.loadPrefixes(path + name);
 		prefixes.setNsPrefixes(loaded_prefixes);
 	
-		location = "http://dbpedia.org/sparql";
+		link = "http://dbpedia.org/sparql";
 		// load config
 		// location = config.getProperty(voidUri + "sparqlEndpoint").asNode().get
 //		StmtIterator x = config
@@ -148,5 +209,7 @@ public class LdDatasetFactory {
 		 *         void:dataDump <http://data.nytimes.com/people.rdf>;
 		 */
 	}
+
+	
 
 }

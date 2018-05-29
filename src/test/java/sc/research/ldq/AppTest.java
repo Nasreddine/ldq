@@ -66,7 +66,7 @@ public class AppTest extends TestCase {
 		LdDataset fr_DBpedia_dataset = null;
 		try {
 			fr_DBpedia_dataset = LdDatasetFactory.getInstance()
-								 .location("http://fr.dbpedia.org/sparql")
+								 .link("http://fr.dbpedia.org/sparql")
 								 .name("fr-dbpedia")
 								 .prefixes(prefixes)
 								 .create();
@@ -75,7 +75,7 @@ public class AppTest extends TestCase {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 		}
-
+		
 		ParameterizedSparqlString query_cmd = fr_DBpedia_dataset.prepareQuery();
 
 		String match_label = "Château de Cheverny";
@@ -102,16 +102,13 @@ public class AppTest extends TestCase {
 
 		try {
 			LdDataset dbpedia = LdDatasetFactory.getInstance()
+												.path(path + "/datasets/")
 												.name("dbpedia")
 												.load();
 
 			ParameterizedSparqlString query_cmd = dbpedia.prepareQuery();
-
-			String match_label = "Château de Cheverny";
-
+			
 			query_cmd.setCommandText(dbpedia.getQuery("askIfAlgeriaExists"));
-
-			query_cmd.setLiteral("label", match_label, "fr");
 
 			logger.info("query = " + query_cmd.toString());
 
