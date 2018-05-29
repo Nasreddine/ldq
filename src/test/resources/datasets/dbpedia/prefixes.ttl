@@ -1,4 +1,4 @@
-@prefix a: <http://www.w3.org/2005/Atom>.
+@prefix a: <http://www.w3.org/2005/Atom>. 
 @prefix address: <http://schemas.talis.com/2005/address/schema#>.
 @prefix admin: <http://webns.net/mvcb/>.
 @prefix atom: <http://atomowl.org/ontologies/atomrdf#>.

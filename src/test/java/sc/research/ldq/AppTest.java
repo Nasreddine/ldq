@@ -75,7 +75,7 @@ public class AppTest extends TestCase {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 		}
-		
+		  
 		ParameterizedSparqlString query_cmd = fr_DBpedia_dataset.prepareQuery();
 
 		String match_label = "Château de Cheverny";

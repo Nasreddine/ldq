@@ -9,7 +9,7 @@ import org.apache.jena.shared.PrefixMapping;
 
 public interface LdDataset {
 	
-	public ResultSet executeSelectQuery(String query);
+	public ResultSet executeSelectQuery(String query); 
 	public Model executeConstructQuery(String query);
 	public boolean executeAskQuery(String query);
 	public Model executeDescribeQuery(String query);

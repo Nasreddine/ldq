@@ -22,7 +22,7 @@ public class SparqlLdDataset extends LdDatasetBase implements LdDataset {
 
 	public SparqlLdDataset() {
 		super();
-
+ 
 	}
 
 	public ResultSet executeSelectQuery(String query) {

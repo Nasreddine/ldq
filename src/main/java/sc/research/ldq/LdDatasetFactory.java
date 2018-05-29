@@ -98,7 +98,7 @@ public class LdDatasetFactory {
 
 		prefixes.setNsPrefixes(default_prefixes);
 
-	}
+	} 
 	
 	/**
 	 * set dataset directory path

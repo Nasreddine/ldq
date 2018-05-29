@@ -197,9 +197,9 @@ public abstract class LdDatasetBase implements LdDataset {
 										.keySet()) {
 			if (!prefix.equals(":"))
 				q.setNsPrefix(prefix, prefixes.getNsPrefixURI(prefix));
-		}
+		} 
 
-		return q;
+		return q; 
 	}
 
 }
