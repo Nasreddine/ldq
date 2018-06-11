@@ -110,7 +110,7 @@ public class AppTest extends TestCase {
 			
 			query_cmd.setCommandText(dbpedia.getQuery("askIfAlgeriaExists"));
 
-			logger.info("query = " + query_cmd.toString());
+			logger.info("askIfAlgeriaExists Query = " + query_cmd.toString());
 
 			boolean result = dbpedia.executeAskQuery(query_cmd.toString());
 			assertEquals(true, result);
