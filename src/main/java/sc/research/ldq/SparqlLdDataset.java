@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.jena.query.ParameterizedSparqlString;
 import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryExecutionFactory;
+import org.apache.jena.query.QueryFactory;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.shared.PrefixMapping;
@@ -32,7 +33,7 @@ public class SparqlLdDataset extends LdDatasetBase implements LdDataset {
 	}
 
 	public boolean executeAskQuery(String query) {
-
+		 
 		return QueryExecutionFactory.sparqlService(this.link, query)
 									.execAsk();
 	}

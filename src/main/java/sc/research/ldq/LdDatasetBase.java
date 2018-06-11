@@ -151,7 +151,7 @@ public abstract class LdDatasetBase implements LdDataset {
 
 	/**
 	 * Load prefixes from dataset prefixes.ttl file
-	 *
+	 * TODO: use http://prefix.cc/ ?
 	 * @param datasetPath
 	 * @return the prefix mapping
 	 * @throws Exception
