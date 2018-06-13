@@ -3,9 +3,10 @@ package sc.research.ldq;
 import java.io.File;
 import java.util.Map;
 
-
+import org.apache.jena.rdf.model.Model;
 import org.apache.jena.shared.PrefixMapping;
 import org.apache.jena.shared.impl.PrefixMappingImpl;
+import org.apache.jena.vocabulary.VOID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,7 +15,7 @@ import org.slf4j.LoggerFactory;
  * A factory for creating LdDataset objects.
  */
 public class LdDatasetFactory {
-	
+
 	/** logger. */
 	Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -23,15 +24,17 @@ public class LdDatasetFactory {
 
 	/** The LD dataset name. */
 	private String name;
-	
+
 	/** link to sparql dataset or rdf file. */
-	private String link; // 
-	
+	private String link; //
+
 	/** The dataset prefixes. */
 	private PrefixMapping prefixes;
-	
+
 	/** The directory path where dataset is defined. */
-	private String path; 
+	private String path;
+
+	private Model config = null;
 
 	/** The dump. */
 	static int SPARQL = 0, LOCAL = 1, DUMP = 2;
@@ -44,7 +47,6 @@ public class LdDatasetFactory {
 		defaultPrefixes();
 		path = "datasets/";
 	}
-	
 
 	/**
 	 * Gets the single instance of LdDatasetFactory.
@@ -58,7 +60,8 @@ public class LdDatasetFactory {
 	/**
 	 * set dataset name.
 	 *
-	 * @param name the name
+	 * @param name
+	 *            the name
 	 * @return the ld dataset factory
 	 */
 	public LdDatasetFactory name(String name) {
@@ -69,7 +72,8 @@ public class LdDatasetFactory {
 	/**
 	 * set dataset link.
 	 *
-	 * @param link to LD dataset (sparql url, file path or Jena TDB directory
+	 * @param link
+	 *            to LD dataset (sparql url, file path or Jena TDB directory
 	 * @return the LD dataset factory
 	 */
 	public LdDatasetFactory link(String location) {
@@ -80,7 +84,7 @@ public class LdDatasetFactory {
 	/**
 	 * set dataset prefixes, .
 	 *
-	 * @param prefixes 
+	 * @param prefixes
 	 * @return the ld dataset factory
 	 */
 	public LdDatasetFactory prefixes(PrefixMapping prefixes) {
@@ -90,7 +94,7 @@ public class LdDatasetFactory {
 	}
 
 	/**
-	 *  Default prefixes.
+	 * Default prefixes.
 	 */
 	private void defaultPrefixes() {
 
@@ -98,12 +102,13 @@ public class LdDatasetFactory {
 
 		prefixes.setNsPrefixes(default_prefixes);
 
-	} 
-	
+	}
+
 	/**
 	 * set dataset directory path
 	 *
-	 * @param path the path
+	 * @param path
+	 *            the path
 	 * @return the ld dataset factory
 	 */
 	public LdDatasetFactory path(String path) {
@@ -115,7 +120,8 @@ public class LdDatasetFactory {
 	 * Create the dataset.
 	 *
 	 * @return the ld dataset
-	 * @throws Exception the exception
+	 * @throws Exception
+	 *             the exception
 	 */
 	public LdDataset create() throws Exception {
 
@@ -150,7 +156,8 @@ public class LdDatasetFactory {
 	/**
 	 * Deduce dataset type from link value.
 	 *
-	 * @param link the location
+	 * @param link
+	 *            the location
 	 * @return int
 	 */
 	private int type(String link) {
@@ -166,50 +173,24 @@ public class LdDatasetFactory {
 	 * Loading predefined dataset.
 	 *
 	 * @return the ld dataset
-	 * @throws Exception the exception
+	 * @throws Exception
+	 *             the exception
 	 */
 	public LdDataset load() throws Exception {
 
 		// Load prefixes
 		PrefixMapping loaded_prefixes = LdDatasetBase.loadPrefixes(path + name);
 		prefixes.setNsPrefixes(loaded_prefixes);
-	
-		link = "http://dbpedia.org/sparql";
+
 		// load config
-		// location = config.getProperty(voidUri + "sparqlEndpoint").asNode().get
-//		StmtIterator x = config
-//				.listStatements(new SelectorImpl(null, ModelFactory	.createDefaultModel()
-//																	.createProperty(voidUri + "sparqlEndpoint"),
-//				(RDFNode) null));
-//		x.toModel();
-		//System.out.println(config);
+
+		this.config = LdDatasetBase.loadConfig(path + name);
+		
+		this.link = Util.firstValueOfModelProperty(config, VOID.sparqlEndpoint).toString();
+		
 
 		return create();
-		// load prefiexes
-		// load service endpoint info, depending on dataset type
-		// create config file from repo
 
-		// TODO: read prefixes from config file
-		// this.config.setPrefixes(prefixes);
-
-		// Example of config file:
-		// link: https://www.w3.org/TR/void/
-		/**
-		 * @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-		 * @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-		 * @prefix foaf: <http://xmlns.com/foaf/0.1/> .
-		 * @prefix dcterms: <http://purl.org/dc/terms/> .
-		 * @prefix void: <http://rdfs.org/ns/void#> .
-		 * 
-		 *         :DBpedia rdf:type void:Dataset ; foaf:homepage <http://dbpedia.org/>
-		 *         ; void:sparqlEndpoint <http://dbpedia.org/sparql> ;
-		 *         void:linkPredicate owl:sameAs ; void:target :Wikidata ; void:target
-		 *         :Yago; dcterms:subject <http://dbpedia.org/resource/Proceedings> .
-		 * 
-		 *         void:dataDump <http://data.nytimes.com/people.rdf>;
-		 */
 	}
-
-	
 
 }

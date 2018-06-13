@@ -12,6 +12,8 @@ import org.apache.commons.io.FileUtils;
 import org.apache.jena.query.ParameterizedSparqlString;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.shared.PrefixMapping;
 import org.apache.jena.shared.impl.PrefixMappingImpl;
@@ -134,24 +136,22 @@ public abstract class LdDatasetBase implements LdDataset {
 	 * @throws Exception
 	 */
 	public static Model loadConfig(String datasetPath) throws Exception {
-		// TODO: load from its name (directory).
 
 		if (null == datasetPath)
 			throw new Exception("dataset name must be set");
 
-		// Create a model and read into it from file
+		
 		Model config = RDFDataMgr.loadModel(datasetPath + "/" + "config.ttl");
 
 		return config;
-		// OR we use dataset, with sparql ?
-		// Create a dataset and read into it from file
-		// "data.trig" assumed to be TriG.
-		// Dataset dataset = RDFDataMgr.loadDataset("data.trig");
+
 	}
 
+	
+
 	/**
-	 * Load prefixes from dataset prefixes.ttl file
-	 * TODO: use http://prefix.cc/ ?
+	 * Load prefixes from dataset prefixes.ttl file TODO: use http://prefix.cc/ ?
+	 * 
 	 * @param datasetPath
 	 * @return the prefix mapping
 	 * @throws Exception
@@ -193,13 +193,12 @@ public abstract class LdDatasetBase implements LdDataset {
 		if (baseUri != null)
 			q.setBaseUri(baseUri);
 
-		for (String prefix : prefixes	.getNsPrefixMap()
-										.keySet()) {
+		for (String prefix : prefixes.getNsPrefixMap().keySet()) {
 			if (!prefix.equals(":"))
 				q.setNsPrefix(prefix, prefixes.getNsPrefixURI(prefix));
-		} 
+		}
 
-		return q; 
+		return q;
 	}
 
 }
