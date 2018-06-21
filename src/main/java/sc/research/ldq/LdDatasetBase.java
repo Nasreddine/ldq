@@ -178,6 +178,18 @@ public abstract class LdDatasetBase implements LdDataset {
 		String queryPath = path + name + "/queries/" + queryName + ".sparql";
 		return FileUtils.readFileToString(new File(queryPath), Charset.defaultCharset());
 	}
+	
+	/**
+	 * TODO: store a query in queries folder
+	 * 
+	 * @param QueryName
+	 * @return the query string
+	 * 
+	 */
+	public void storeQuery(String query) throws IOException {
+		// dataset repository has to be exist
+		// if "queries" repository not available, create it
+	}
 
 	/**
 	 * Prepare query by adding all prefixes.

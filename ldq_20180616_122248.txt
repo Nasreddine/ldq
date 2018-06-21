@@ -1,0 +1,6 @@
+WARNING - 12:22:49: Creating types 
+WARNING - 12:22:49: Initializing types
+WARNING - 12:22:50: Generic post-process : Creating usages and associations
+WARNING - 12:22:50: Generic post-process : Creating activities
+WARNING - 12:22:50: Saving uml file /resource/ldq/ldq.uml
+WARNING - 12:22:50: Uml file /resource/ldq/ldq.uml saved

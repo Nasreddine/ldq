@@ -111,7 +111,7 @@ public class LdDatasetFactory {
 	 *            the path
 	 * @return the ld dataset factory
 	 */
-	public LdDatasetFactory path(String path) {
+	public LdDatasetFactory repository(String path) {
 		this.path = path;
 		return this;
 	}
@@ -134,10 +134,10 @@ public class LdDatasetFactory {
 		case 0:
 			dataset = new SparqlLdDataset();
 			break;
-		case 1:
+		case 1: // TODO
 			dataset = new SparqlLdDataset();
 			break;
-		case 2:
+		case 2: // TODO
 			dataset = new SparqlLdDataset();
 			break;
 		default:
@@ -191,6 +191,14 @@ public class LdDatasetFactory {
 
 		return create();
 
+	}
+	
+	/**
+	 * TODO: create dataset repository that contains necessary files: config, prefixes
+	 */
+	
+	public void contructLdDatasetRepository() {
+		
 	}
 
 }

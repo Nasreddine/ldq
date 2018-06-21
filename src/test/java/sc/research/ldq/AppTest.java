@@ -102,7 +102,7 @@ public class AppTest extends TestCase {
 
 		try {
 			LdDataset dbpedia = LdDatasetFactory.getInstance()
-												.path(path + "/datasets/")
+												.repository(path + "/datasets/")
 												.name("dbpedia")
 												.load();
 

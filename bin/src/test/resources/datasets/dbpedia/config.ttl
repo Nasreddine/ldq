@@ -1,0 +1,8 @@
+@prefix void: <http://rdfs.org/ns/void#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix : <#> .
+
+:DBpedia a void:Dataset;
+    void:sparqlEndpoint <http://dbpedia.org/sparql>;
+    foaf:homepage <http://dbpedia.org/>;
+    void:uriSpace "http://dbpedia.org/resource/". 
