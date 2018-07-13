@@ -27,5 +27,6 @@ public interface LdDataset {
 	public void setLink(String location);
 	public String getQuery(String name) throws IOException;
 	public void setPath(String path);
+	public void close();
 
 }

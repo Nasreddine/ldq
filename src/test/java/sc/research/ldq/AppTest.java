@@ -66,7 +66,7 @@ public class AppTest extends TestCase {
 		LdDataset fr_DBpedia_dataset = null;
 		try {
 			fr_DBpedia_dataset = LdDatasetFactory.getInstance()
-								 .link("http://fr.dbpedia.org/sparql")
+								 .service("http://fr.dbpedia.org/sparql")
 								 .name("fr-dbpedia")
 								 .prefixes(prefixes)
 								 .create();

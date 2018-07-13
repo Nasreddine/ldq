@@ -76,7 +76,7 @@ public class LdDatasetFactory {
 	 *            to LD dataset (sparql url, file path or Jena TDB directory
 	 * @return the LD dataset factory
 	 */
-	public LdDatasetFactory link(String location) {
+	public LdDatasetFactory service(String location) {
 		this.link = location;
 		return factory;
 	}

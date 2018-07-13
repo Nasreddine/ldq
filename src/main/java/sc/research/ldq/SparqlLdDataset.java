@@ -52,6 +52,11 @@ public class SparqlLdDataset extends LdDatasetBase implements LdDataset {
 									.execDescribe();
 	}
 
+	public void close() {
+		//this.close();
+		
+	}
+
 	// if (this.config.dataset_type == LdDatasetType.REMOTE_SPARQL_ENDPOINT)
 	// else {
 	// if (model == null) {
