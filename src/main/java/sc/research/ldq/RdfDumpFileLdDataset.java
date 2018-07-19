@@ -3,48 +3,57 @@ package sc.research.ldq;
 import org.apache.jena.query.QueryExecutionFactory;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.util.FileManager;
 
 
 /**
  * The Class SparqlLdDataset.
  */
-public class RemoteSparqlLdDataset extends LdDatasetBase implements LdDataset {
+public class RdfDumpFileLdDataset extends LdDatasetBase implements LdDataset {
+	
+	Model model;
 
-	public RemoteSparqlLdDataset() {
+	public RdfDumpFileLdDataset() {
 
 	}
 
 	public ResultSet executeSelectQuery(String query) {
 		initQueryExecution(query);
-		return QueryExecutionFactory.sparqlService(this.link, query).execSelect();
+		return queryExecution.execSelect();
 
 	}
 
-	private void initQueryExecution(String query) {
-		queryExecution = QueryExecutionFactory.create(query);
-		
-	}
+	
 
 	public boolean executeAskQuery(String query) {
 		initQueryExecution(query);
-		return QueryExecutionFactory.sparqlService(this.link, query).execAsk();
+		return  queryExecution.execAsk();
 	}
 
 	// TODO: see weather we need to call construct on dataset ?
 
 	public Model executeConstructQuery(String query) {
 		initQueryExecution(query);
-		return QueryExecutionFactory.sparqlService(this.link, query).execConstruct();
+		return queryExecution.execConstruct();
 	}
 
 	public Model executeDescribeQuery(String query) {
 		initQueryExecution(query);
-		return QueryExecutionFactory.sparqlService(this.link, query).execDescribe();
+		return queryExecution.execDescribe();
 	}
 
 	public void close() {
 		 queryExecution.close();
 
+	}
+	
+	private void initQueryExecution(String query) {
+		
+		this.model = ModelFactory.createDefaultModel();
+        FileManager.get().readModel(model , this.link);        
+        queryExecution = QueryExecutionFactory.create(query, model);
+		
 	}
 
 	

@@ -10,6 +10,7 @@ import org.apache.jena.vocabulary.VOID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
 // TODO: Auto-generated Javadoc
 /**
  * A factory for creating LdDataset objects.
@@ -76,8 +77,13 @@ public class LdDatasetFactory {
 	 *            to LD dataset (sparql url, file path or Jena TDB directory
 	 * @return the LD dataset factory
 	 */
-	public LdDatasetFactory service(String location) {
-		this.link = location;
+	public LdDatasetFactory service(String uri) {
+		this.link = uri;
+		return factory;
+	}
+	
+	public LdDatasetFactory file(String filename) {
+		this.link = filename;
 		return factory;
 	}
 
@@ -128,17 +134,17 @@ public class LdDatasetFactory {
 		if (name == null || link == null)
 			throw new Exception("name and/or location are not provided");
 
-		int type = type(link);
+		int type = datsetType(link);
 		LdDataset dataset;
 		switch (type) {
 		case 0:
-			dataset = new SparqlLdDataset();
+			dataset = new RemoteSparqlLdDataset();
 			break;
-		case 1: // TODO
-			dataset = new SparqlLdDataset();
+		case 1: // TODO: TDB dataset
+			dataset = new RemoteSparqlLdDataset();
 			break;
 		case 2: // TODO
-			dataset = new SparqlLdDataset();
+			dataset = new RdfDumpFileLdDataset();
 			break;
 		default:
 			return null;
@@ -160,7 +166,7 @@ public class LdDatasetFactory {
 	 *            the location
 	 * @return int
 	 */
-	private int type(String link) {
+	private int datsetType(String link) {
 		if (link.contains("http://") || link.contains("https://"))
 			return 0;
 		else if (new File(link).isDirectory())
@@ -200,5 +206,7 @@ public class LdDatasetFactory {
 	public void contructLdDatasetRepository() {
 		
 	}
+
+	
 
 }

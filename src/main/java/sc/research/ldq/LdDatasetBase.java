@@ -10,6 +10,8 @@ import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.jena.query.ParameterizedSparqlString;
+import org.apache.jena.query.QueryExecution;
+import org.apache.jena.query.QueryExecutionFactory;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Property;
@@ -40,9 +42,15 @@ public abstract class LdDatasetBase implements LdDataset {
 
 	/** dataset configuration Model. */
 	Model config;
+	
+	
+	
+	QueryExecution queryExecution;
 
+
+	
 	public LdDatasetBase() {
-
+	
 	}
 
 	/*
@@ -54,14 +62,12 @@ public abstract class LdDatasetBase implements LdDataset {
 		return name;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see sc.research.ldq.LdDataset#setName(java.lang.String)
-	 */
+	
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	
 
 	/*
 	 * (non-Javadoc)
@@ -211,6 +217,11 @@ public abstract class LdDatasetBase implements LdDataset {
 		}
 
 		return q;
+	}
+	
+	private void initQueryExecution(String query) {
+		queryExecution = QueryExecutionFactory.create(query);
+		
 	}
 
 }
