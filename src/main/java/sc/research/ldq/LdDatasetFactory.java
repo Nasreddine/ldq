@@ -11,11 +11,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-// TODO: Auto-generated Javadoc
+// TODO: improve factory, we have duplicate attributes of dataset object
+// cannot create dataset object to be able to change directly its attributes, because we don't know its type 
+// What about instatiate the dataset pbject as any type, then do casting ?
+// Or create default dataset, like default model ?
+
 /**
  * A factory for creating LdDataset objects.
  */
 public class LdDatasetFactory {
+	
 
 	/** logger. */
 	Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -39,6 +44,8 @@ public class LdDatasetFactory {
 
 	/** The dump. */
 	static int SPARQL = 0, LOCAL = 1, DUMP = 2;
+	
+	private String defaultGraph;
 
 	/**
 	 * Instantiates a ld Datasets factory and init variables.
@@ -109,6 +116,8 @@ public class LdDatasetFactory {
 		prefixes.setNsPrefixes(default_prefixes);
 
 	}
+	
+	
 
 	/**
 	 * set dataset directory path
@@ -119,6 +128,11 @@ public class LdDatasetFactory {
 	 */
 	public LdDatasetFactory repository(String path) {
 		this.path = path;
+		return this;
+	}
+	
+	public LdDatasetFactory defaultGraph(String g) {
+		this.defaultGraph = g;
 		return this;
 	}
 
@@ -154,6 +168,7 @@ public class LdDatasetFactory {
 		dataset.setLink(link);
 		dataset.setPrefixes(prefixes);
 		dataset.setPath(path);
+		dataset.setDefaultGraph(defaultGraph);
 
 		return dataset;
 

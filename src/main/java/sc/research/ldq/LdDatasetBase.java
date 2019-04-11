@@ -43,6 +43,9 @@ public abstract class LdDatasetBase implements LdDataset {
 	/** dataset configuration Model. */
 	Model config;
 	
+	/** default graph */
+	String defaultGraph;
+	
 	
 	
 	QueryExecution queryExecution;
@@ -66,6 +69,19 @@ public abstract class LdDatasetBase implements LdDataset {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	
+	public void setDefaultGraph(String g) {
+		this.defaultGraph = g;
+	}
+	
+	
+	public String getDefaultGraph() {
+		return this.defaultGraph;
+	}
+	
+	
+	
 	
 	
 

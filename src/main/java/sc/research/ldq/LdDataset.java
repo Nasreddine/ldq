@@ -28,5 +28,7 @@ public interface LdDataset {
 	public String getQuery(String name) throws IOException;
 	public void setPath(String path);
 	public void close();
+	public String getDefaultGraph();
+	public void setDefaultGraph(String g);
 
 }
