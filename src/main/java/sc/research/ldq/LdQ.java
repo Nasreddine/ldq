@@ -8,6 +8,6 @@ public class LdQ
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+        // TODO: command line tool?
     }
 }

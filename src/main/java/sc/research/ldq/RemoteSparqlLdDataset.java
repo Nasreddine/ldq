@@ -4,7 +4,6 @@ import org.apache.jena.query.QueryExecutionFactory;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.Model;
 
-
 /**
  * The Class SparqlLdDataset.
  */
@@ -22,15 +21,13 @@ public class RemoteSparqlLdDataset extends LdDatasetBase implements LdDataset {
 
 	private void initQueryExecution(String query) {
 		queryExecution = QueryExecutionFactory.create(query);
-		
+
 	}
 
 	public boolean executeAskQuery(String query) {
 		initQueryExecution(query);
 		return QueryExecutionFactory.sparqlService(this.link, query).execAsk();
 	}
-
-	// TODO: see weather we need to call construct on dataset ?
 
 	public Model executeConstructQuery(String query) {
 		initQueryExecution(query);
@@ -43,11 +40,9 @@ public class RemoteSparqlLdDataset extends LdDatasetBase implements LdDataset {
 	}
 
 	public void close() {
-		 queryExecution.close();
+		queryExecution.close();
 
 	}
-
-	
 
 	// if (this.config.dataset_type == LdDatasetType.REMOTE_SPARQL_ENDPOINT)
 	// else {
