@@ -160,6 +160,8 @@ public class LdDatasetFactory {
 		case 2: // TODO
 			dataset = new RdfDumpFileLdDataset();
 			break;
+		case 3: // HDT file
+			dataset = new HDTFileLdDataset();
 		default:
 			return null;
 		}
